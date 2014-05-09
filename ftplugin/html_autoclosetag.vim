@@ -35,7 +35,7 @@ endf
 fun s:CountInPage(needle)
 	let pos = [line('.'), col('.')]
 	call cursor(1, 1)
-	let counter = search(a:needle, 'Wc')
+	let counter = 0
 	while search(a:needle, 'W')
 		if !s:InComment() | let counter += 1 | endif
 	endw
