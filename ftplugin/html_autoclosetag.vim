@@ -58,8 +58,8 @@ fun s:CloseTag()
 	if line[col] !~ '\w\|<\|>' && !s:InComment()
 		let tag = s:GetCurrentTag()
 		" Insert closing tag if tag is not self-closing and has not already
-		" been closed
-		if tag != '' && tag !~ '\vimg|input|link|meta|br|hr|area|base|param|dd|dt'
+		" been closed. http://www.w3.org/TR/html5/syntax.html#void-elements
+		if tag != '' && tag !~ '\varea|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr'
 					\ && !s:ClosingTag(tag)
 			let line = substitute(line, '\%'.col.'c', '</'.escape(tag, '/').'>', '')
 			call setline('.', line)
