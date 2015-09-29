@@ -16,8 +16,7 @@ let s:did_auto_closetag = 1
 
 " Gets the current HTML tag by the cursor.
 fun s:GetCurrentTag()
-	return matchstr(matchstr(getline('.'),
-						\ '<\zs\(\w\|=\| \|''\|"\)*>\%'.col('.').'c'), '^\a*')
+	return matchstr(matchstr(getline('.'), '<\zs.\+>\%'.col('.').'c'), '^\w*')
 endf
 
 " Cleanly return after autocompleting an html/xml tag.
