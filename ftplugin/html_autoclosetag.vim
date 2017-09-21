@@ -16,8 +16,7 @@ let s:did_auto_closetag = 1
 
 " Gets the current HTML tag by the cursor.
 fun s:GetCurrentTag()
-	return matchstr(matchstr(getline('.'),
-						\ '<\zs\(\w\|=\| \|''\|"\)*>\%'.col('.').'c'), '^\a*')
+	return matchstr(matchstr(getline('.'), '.*<\zs.\+>\%'.col('.').'c'), '^[0-9A-Za-z_\-]*')
 endf
 
 " Cleanly return after autocompleting an html/xml tag.
@@ -59,8 +58,8 @@ fun s:CloseTag()
 	if line[col] !~ '\w\|<\|>' && !s:InComment()
 		let tag = s:GetCurrentTag()
 		" Insert closing tag if tag is not self-closing and has not already
-		" been closed
-		if tag != '' && tag !~ '\vimg|input|link|meta|br|hr|area|base|param|dd|dt'
+		" been closed. http://www.w3.org/TR/html5/syntax.html#void-elements
+		if tag != '' && tag !~ '\varea|base|br|col|embed|hr|img|input|keygen|link|meta|param|source|track|wbr'
 					\ && !s:ClosingTag(tag)
 			let line = substitute(line, '\%'.col.'c', '</'.escape(tag, '/').'>', '')
 			call setline('.', line)
